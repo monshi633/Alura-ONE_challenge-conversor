@@ -1,0 +1,3 @@
+README.md
+-detallar funcionamiento y traducirlo al inglés
+-agregar contenido multimedia sobre el funcionamiento del programa
