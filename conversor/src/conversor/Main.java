@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import net.miginfocom.swing.MigLayout;
+import java.awt.CardLayout;
 
 @SuppressWarnings("serial")
 public class Main extends JFrame {
@@ -41,7 +42,9 @@ public class Main extends JFrame {
 		Font font = new Font("Montserrat", Font.PLAIN, 14);
 		String[] currenciesList = { "ARS", "USD", "EUR", "GBP", "JPY", "KRW" };
 		String[] temperaturesList = { "C°", "F°", "K°" };
+
 		
+//		ContentPane
 		setTitle("Conversor de unidades");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -50,19 +53,57 @@ public class Main extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[grow][grow][]", "[][][][][][]"));
+		contentPane.setLayout(new MigLayout("", "[grow][grow][]", "[][][][][][][grow]"));
 
+		
+//		Label
 		JLabel titleLabel = new JLabel("Elije el tipo de unidades a convertir");
 		titleLabel.setFont(font);
 		contentPane.add(titleLabel, "cell 0 0 3 1");
 
+		
+//		SelectorPane
+		JPanel subSelectorTopPane = new JPanel();
+		contentPane.add(subSelectorTopPane, "cell 1 3,grow");
+		subSelectorTopPane.setLayout(new CardLayout(0, 0));
 
-//		Text fields
+		JPanel subSelectorBottomPane = new JPanel();
+		contentPane.add(subSelectorBottomPane, "cell 1 5,grow");
+		subSelectorBottomPane.setLayout(new CardLayout(0, 0));
+
+		
+//		SubSelector
+		JComboBox<?> currenciesTopBox = new JComboBox<>(currenciesList);
+		currenciesTopBox.setSelectedIndex(0);
+		subSelectorTopPane.add(currenciesTopBox);
+
+		JComboBox<?> temperaturesTopBox = new JComboBox<>(temperaturesList);
+		temperaturesTopBox.setSelectedIndex(0);
+		subSelectorTopPane.add(temperaturesTopBox);
+
+		JComboBox<?> currenciesBottomBox = new JComboBox<>(currenciesList);
+		currenciesBottomBox.setSelectedIndex(1);
+		subSelectorBottomPane.add(currenciesBottomBox);
+
+		JComboBox<?> temperaturesBottomBox = new JComboBox<>(temperaturesList);
+		temperaturesBottomBox.setSelectedIndex(1);
+		subSelectorBottomPane.add(temperaturesBottomBox);
+
+		
+//		TextField
 		inputTextField = new JTextField();
 		inputTextField.setFont(font);
 		contentPane.add(inputTextField, "cell 0 3,growx");
 		inputTextField.setColumns(10);
 
+		outputTextField = new JTextField();
+		outputTextField.setFont(font);
+		outputTextField.setEditable(false);
+		contentPane.add(outputTextField, "cell 0 5,growx");
+		outputTextField.setColumns(10);
+
+		
+//		ConvertBurron
 		JButton convertButton = new JButton("Convertir");
 		convertButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -72,38 +113,13 @@ public class Main extends JFrame {
 		});
 		contentPane.add(convertButton, "cell 2 4");
 
-		outputTextField = new JTextField();
-		outputTextField.setFont(font);
-		outputTextField.setEditable(false);
-		contentPane.add(outputTextField, "cell 0 5,growx");
-		outputTextField.setColumns(10);
 
-		JComboBox<?> currenciesTopBox = new JComboBox<>(currenciesList);
-		currenciesTopBox.setSelectedIndex(0);
-		contentPane.add(currenciesTopBox, "cell 1 3,growx");
-
-		JComboBox<?> currenciesBottomBox = new JComboBox<>(currenciesList);
-		currenciesBottomBox.setSelectedIndex(1);
-		contentPane.add(currenciesBottomBox, "cell 1 5,growx");
-
-		JComboBox<?> temperaturesTopBox = new JComboBox<>(temperaturesList);
-		temperaturesTopBox.setSelectedIndex(0);
-		contentPane.add(temperaturesTopBox, "cell 1 3,growx");
-
-		JComboBox<?> temperaturesBottomBox = new JComboBox<>(temperaturesList);
-		temperaturesBottomBox.setSelectedIndex(1);
-		contentPane.add(temperaturesBottomBox, "cell 1 5,growx");
-
-		temperaturesTopBox.setVisible(false);
-		temperaturesBottomBox.setVisible(false);
-		
 //		UnitsSelector
 		JRadioButton currenciesRadioButton = new JRadioButton("Monedas");
 		currenciesRadioButton.setFont(font);
 		currenciesRadioButton.setSelected(true);
 		currenciesRadioButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				selectedList = currenciesList;
 				temperaturesTopBox.setVisible(false);
 				temperaturesBottomBox.setVisible(false);
 				currenciesTopBox.setVisible(true);
@@ -111,7 +127,7 @@ public class Main extends JFrame {
 			}
 		});
 		contentPane.add(currenciesRadioButton, "cell 0 1");
-		
+
 		JRadioButton temperaturesRadioButton = new JRadioButton("Temperaturas");
 		temperaturesRadioButton.setFont(font);
 		temperaturesRadioButton.addActionListener(new ActionListener() {
@@ -128,5 +144,4 @@ public class Main extends JFrame {
 		units.add(currenciesRadioButton);
 		units.add(temperaturesRadioButton);
 	}
-
 }
