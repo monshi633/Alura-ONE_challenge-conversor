@@ -89,6 +89,58 @@ public class Main extends JFrame {
 		temperaturesBottomBox.setSelectedIndex(1);
 		subSelectorBottomPane.add(temperaturesBottomBox);
 
+		/*
+		 * This action listeners change the value of the non-selected box
+		 * to un-match the value of the selected one 
+		 */
+		temperaturesTopBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (temperaturesTopBox.getSelectedIndex() == temperaturesBottomBox.getSelectedIndex()) {
+					try {
+						temperaturesBottomBox.setSelectedIndex(temperaturesBottomBox.getSelectedIndex() + 1);
+					} catch(Exception e1) {
+						temperaturesBottomBox.setSelectedIndex(0);
+					}
+				}
+			}
+		});
+		
+		temperaturesBottomBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (temperaturesBottomBox.getSelectedIndex() == temperaturesTopBox.getSelectedIndex()) {
+					try {
+						temperaturesTopBox.setSelectedIndex(temperaturesTopBox.getSelectedIndex() + 1);
+					} catch(Exception e1) {
+						temperaturesTopBox.setSelectedIndex(0);
+					}
+				}
+			}
+		});
+		
+		currenciesTopBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (currenciesTopBox.getSelectedIndex() == currenciesBottomBox.getSelectedIndex()) {
+					try {
+						currenciesBottomBox.setSelectedIndex(currenciesBottomBox.getSelectedIndex() + 1);
+					} catch(Exception e1) {
+						currenciesBottomBox.setSelectedIndex(0);
+					}
+				}
+			}
+		});
+		
+		currenciesBottomBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (currenciesBottomBox.getSelectedIndex() == currenciesTopBox.getSelectedIndex()) {
+					try {
+						currenciesTopBox.setSelectedIndex(currenciesTopBox.getSelectedIndex() + 1);
+					} catch(Exception e1) {
+						currenciesTopBox.setSelectedIndex(0);
+					}
+				}
+			}
+		});
+
 		
 //		TextField
 		inputTextField = new JTextField();
