@@ -1,10 +1,9 @@
-package conversor;
+package unitsConversor;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import java.awt.Font;
-import java.awt.EventQueue;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -12,38 +11,18 @@ import net.miginfocom.swing.MigLayout;
 import java.awt.CardLayout;
 
 @SuppressWarnings("serial")
-public class Main extends JFrame {
+public class Window extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField inputTextField;
 	private JTextField outputTextField;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Main frame = new Main();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Main() {
+	public Window() {
 //		Attributes
 		Font font = new Font("Montserrat", Font.PLAIN, 14);
 		String[] currenciesList = { "ARS", "USD", "EUR", "GBP", "JPY", "KRW" };
-		String[] temperaturesList = { "C°", "F°", "K°" };
+		String[] temperaturesList = { "CÂ°", "FÂ°", "KÂ°" };
 
-		
 //		ContentPane
 		setTitle("Conversor de unidades");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,13 +34,11 @@ public class Main extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new MigLayout("", "[grow][grow][]", "[][][][][][][grow]"));
 
-		
 //		Label
 		JLabel titleLabel = new JLabel("Elije el tipo de unidades a convertir");
 		titleLabel.setFont(font);
 		contentPane.add(titleLabel, "cell 0 0 3 1");
 
-		
 //		SelectorPane
 		JPanel subSelectorTopPane = new JPanel();
 		contentPane.add(subSelectorTopPane, "cell 1 3,grow");
@@ -71,7 +48,6 @@ public class Main extends JFrame {
 		contentPane.add(subSelectorBottomPane, "cell 1 5,grow");
 		subSelectorBottomPane.setLayout(new CardLayout(0, 0));
 
-		
 //		SubSelector
 		JComboBox<?> currenciesTopBox = new JComboBox<>(currenciesList);
 		currenciesTopBox.setSelectedIndex(0);
@@ -90,58 +66,57 @@ public class Main extends JFrame {
 		subSelectorBottomPane.add(temperaturesBottomBox);
 
 		/*
-		 * This action listeners change the value of the non-selected box
-		 * to un-match the value of the selected one 
+		 * This action listeners change the value of the non-selected box to un-match
+		 * the value of the selected one
 		 */
 		temperaturesTopBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (temperaturesTopBox.getSelectedIndex() == temperaturesBottomBox.getSelectedIndex()) {
 					try {
 						temperaturesBottomBox.setSelectedIndex(temperaturesBottomBox.getSelectedIndex() + 1);
-					} catch(Exception e1) {
+					} catch (Exception e1) {
 						temperaturesBottomBox.setSelectedIndex(0);
 					}
 				}
 			}
 		});
-		
+
 		temperaturesBottomBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (temperaturesBottomBox.getSelectedIndex() == temperaturesTopBox.getSelectedIndex()) {
 					try {
 						temperaturesTopBox.setSelectedIndex(temperaturesTopBox.getSelectedIndex() + 1);
-					} catch(Exception e1) {
+					} catch (Exception e1) {
 						temperaturesTopBox.setSelectedIndex(0);
 					}
 				}
 			}
 		});
-		
+
 		currenciesTopBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (currenciesTopBox.getSelectedIndex() == currenciesBottomBox.getSelectedIndex()) {
 					try {
 						currenciesBottomBox.setSelectedIndex(currenciesBottomBox.getSelectedIndex() + 1);
-					} catch(Exception e1) {
+					} catch (Exception e1) {
 						currenciesBottomBox.setSelectedIndex(0);
 					}
 				}
 			}
 		});
-		
+
 		currenciesBottomBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (currenciesBottomBox.getSelectedIndex() == currenciesTopBox.getSelectedIndex()) {
 					try {
 						currenciesTopBox.setSelectedIndex(currenciesTopBox.getSelectedIndex() + 1);
-					} catch(Exception e1) {
+					} catch (Exception e1) {
 						currenciesTopBox.setSelectedIndex(0);
 					}
 				}
 			}
 		});
 
-		
 //		TextField
 		inputTextField = new JTextField();
 		inputTextField.setFont(font);
@@ -154,7 +129,6 @@ public class Main extends JFrame {
 		contentPane.add(outputTextField, "cell 0 5,growx");
 		outputTextField.setColumns(10);
 
-		
 //		ConvertBurron
 		JButton convertButton = new JButton("Convertir");
 		convertButton.addActionListener(new ActionListener() {
@@ -164,7 +138,6 @@ public class Main extends JFrame {
 			}
 		});
 		contentPane.add(convertButton, "cell 2 4");
-
 
 //		UnitsSelector
 		JRadioButton currenciesRadioButton = new JRadioButton("Monedas");
@@ -191,7 +164,7 @@ public class Main extends JFrame {
 			}
 		});
 		contentPane.add(temperaturesRadioButton, "cell 1 1");
-		
+
 		ButtonGroup units = new ButtonGroup();
 		units.add(currenciesRadioButton);
 		units.add(temperaturesRadioButton);

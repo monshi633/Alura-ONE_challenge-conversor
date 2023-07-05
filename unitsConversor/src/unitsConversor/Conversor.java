@@ -1,4 +1,4 @@
-package conversor;
+package unitsConversor;
 
 public class Conversor {
 
