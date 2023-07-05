@@ -20,7 +20,7 @@ public class Window extends JFrame {
 	public Window() {
 //		Attributes
 		Font font = new Font("Montserrat", Font.PLAIN, 14);
-		String[] currenciesList = { "ARS", "USD", "EUR", "GBP", "JPY", "KRW" };
+		String[] currenciesList = { "MXN", "USD", "EUR", "GBP", "JPY", "KRW" };
 		String[] temperaturesList = { "C°", "F°", "K°" };
 
 //		ContentPane

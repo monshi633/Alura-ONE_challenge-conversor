@@ -1,6 +1,8 @@
-package unitsConversor;
+package test;
 
 import java.awt.EventQueue;
+
+import unitsConversor.Window;
 
 public class TestWindow {
 

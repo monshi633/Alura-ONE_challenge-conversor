@@ -1,4 +1,4 @@
-package unitsConversor;
+package test;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,23 +11,26 @@ import java.nio.charset.StandardCharsets;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+
+import unitsConversor.Currency;
+
 
 public class TestAPI {
 
 	public static void main(String[] args) {
 		
 		String apiKey = "gn35qo09ob0vfc8ffvf88qe00h8phk7g9p46md1djdg5j9eaohli";
-		String base = "USD";
+		String base = "GBP";
 		String to = "EUR";
 		BigDecimal amount = new BigDecimal("100");
-		String converted;
-
+//		String converted;
+		String urlRequest = "https://anyapi.io/api/v1/exchange/convert?base=" + base + "&to=" + to + "&amount="
+				+ amount.intValue() + "&apiKey=" + apiKey;
+		
 		try {
 			@SuppressWarnings("deprecation")
-			URL url = new URL("https://anyapi.io/api/v1/exchange/convert?base=" + base + "&to=" + to + "&amount="
-					+ amount.intValue() + "&apiKey=" + apiKey);
-
+			URL url = new URL(urlRequest);			
 			HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
 			conn.connect();
@@ -43,11 +46,11 @@ public class TestAPI {
 				BufferedReader rd = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
 				String response = readAll(rd);
 //				Store API useful data
-
+				Gson gson = new Gson();
+				Currency currency = gson.fromJson(response, Currency.class);
 				
 				System.out.println(response);
-//				System.out.println(converted);
-
+				System.out.println(currency.getConverted());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
