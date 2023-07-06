@@ -13,7 +13,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import com.google.gson.Gson;
 
-import unitsConversor.Currency;
+import util.Currency;
 
 
 public class TestAPI {

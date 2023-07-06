@@ -1,4 +1,4 @@
-package unitsConversor;
+package main;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

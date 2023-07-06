@@ -1,9 +1,9 @@
 package enums;
 
 public enum TemperatureUnit {
-	CELCIUS("C"),
-	FARENHEIT("F"),
-	KELVIN("K");
+	CELCIUS("Celcius"),
+	FARENHEIT("Farenheit"),
+	KELVIN("Kelvin");
 	
 	private String unitName;
 	
@@ -14,4 +14,9 @@ public enum TemperatureUnit {
 	public String getUnitName() {
 		return unitName;
 	}
+
+	public void setUnitName(String unitName) {
+		this.unitName = unitName;
+	}
+	
 }

@@ -1,6 +1,6 @@
 package test;
 
-import unitsConversor.Conversor;
+import main.Conversor;
 
 public class TestConversor {
 
