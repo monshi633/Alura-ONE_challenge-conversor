@@ -7,20 +7,20 @@ import enums.TemperatureUnit;
 
 public class TemperatureConverter {
 	/*
-	 * Converts inputValue from one unit to another
-	 * using C as a medium if needed to
+	 * Converts a BigDecimal from one unit to another using C as a medium if needed to
 	 * i.e: from F to K: convertToC(F) -> convertFromC(K)
 	 */
-	public static BigDecimal getConversionValue(BigDecimal inputValue, TemperatureUnit fromUnit, TemperatureUnit toUnit) {
+	public static BigDecimal getConversionValue(BigDecimal inputValue, TemperatureUnit fromUnit,
+			TemperatureUnit toUnit) {
 		if (fromUnit.toString() == "CELSIUS") {
-			return convertFromC(inputValue, toUnit);
+			return convertFromC(inputValue, toUnit).setScale(3, RoundingMode.HALF_UP);
 		} else if (toUnit.toString() == "CELSIUS") {
-			return convertToC(inputValue, fromUnit);
+			return convertToC(inputValue, fromUnit).setScale(3, RoundingMode.HALF_UP);
 		} else {
-			return convertFromC(convertToC(inputValue,fromUnit),toUnit);
+			return convertFromC(convertToC(inputValue, fromUnit), toUnit).setScale(3, RoundingMode.HALF_UP);
 		}
 	}
-	
+
 	/*
 	 * Converts value from any unit to C
 	 */
@@ -28,7 +28,7 @@ public class TemperatureConverter {
 		switch (unitFrom) {
 		case FARENHEIT:
 //			return (inputValue - 32) * 5 / 9;
-			return inputValue.subtract(new BigDecimal("32")).multiply(new BigDecimal("5")).divide(new BigDecimal("9"),RoundingMode.HALF_UP);
+			return inputValue.subtract(new BigDecimal("32")).multiply(new BigDecimal("5")).divide(new BigDecimal("9"),10,RoundingMode.HALF_UP);
 		case KELVIN:
 //			return inputValue - 273.15;
 			return inputValue.subtract(new BigDecimal("273.15"));
@@ -44,7 +44,8 @@ public class TemperatureConverter {
 		switch (unitFrom) {
 		case FARENHEIT:
 //			return inputValue * 9 / 5 + 32;
-			return inputValue.multiply(new BigDecimal("9").divide(new BigDecimal("5"),RoundingMode.HALF_UP)).add(new BigDecimal("32"));
+			return inputValue.multiply(new BigDecimal("9")).divide(new BigDecimal("5"),10,RoundingMode.HALF_UP)
+					.add(new BigDecimal("32"));
 		case KELVIN:
 //			return inputValue + 273.15;
 			return inputValue.add(new BigDecimal("273.15"));
@@ -52,4 +53,5 @@ public class TemperatureConverter {
 			throw new IllegalArgumentException("Unexpected value: " + unitFrom);
 		}
 	}
+	
 }
