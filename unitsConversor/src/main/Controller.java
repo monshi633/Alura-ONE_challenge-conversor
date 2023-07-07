@@ -12,23 +12,24 @@ import java.math.BigDecimal;
 import java.awt.event.ActionEvent;
 
 import net.miginfocom.swing.MigLayout;
+import util.CurrencyConverter;
 import util.TemperatureConverter;
 
 import java.awt.CardLayout;
+import javax.swing.event.CaretListener;
+import javax.swing.event.CaretEvent;
+import java.awt.Color;
 
 @SuppressWarnings("serial")
-public class Window extends JFrame {
+public class Controller extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField inputTextField;
 	private JTextField outputTextField;
 
-	public Window() {
+	public Controller() {
 //		Attributes
 		Font font = new Font("Montserrat", Font.PLAIN, 14);
-//		String[] currenciesList = { "MXN", "USD", "EUR", "GBP", "JPY", "KRW" };
-//		String[] temperaturesList = { "C°", "F°", "K°" };
-//		ArrayList<TemperatureUnit> temperaturesList = new ArrayList<TemperatureUnit>(Arrays.asList(TemperatureUnit.values()));
 
 //		ContentPane
 		setTitle("Conversor de unidades");
@@ -39,7 +40,7 @@ public class Window extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[grow][grow][]", "[][][][][][][grow]"));
+		contentPane.setLayout(new MigLayout("", "[grow][grow]", "[20px][][][][25px:n][][][][grow]"));
 
 //		Label
 		JLabel titleLabel = new JLabel("Elije el tipo de unidades a convertir");
@@ -127,19 +128,36 @@ public class Window extends JFrame {
 		});
 
 //		TextField
+		JLabel validationErrorLabel = new JLabel();
+		validationErrorLabel.setFont(font);
+		validationErrorLabel.setForeground(new Color(255, 0, 0));
+		validationErrorLabel.setVisible(false);
+		contentPane.add(validationErrorLabel, "cell 0 4 2 1");
+
 		inputTextField = new JTextField();
 		inputTextField.setFont(font);
 		contentPane.add(inputTextField, "cell 0 3,growx");
-		inputTextField.setColumns(10);
+		inputTextField.addCaretListener(new CaretListener() {
+			public void caretUpdate(CaretEvent e) {
+				if (!ValidateInput.validateInput(inputTextField.getText().toString())) {
+					inputTextField.setForeground(new Color(255, 0, 0));
+					validationErrorLabel.setText(ValidateInput.getValidationError());
+					validationErrorLabel.setVisible(true);
+				} else {
+					inputTextField.setForeground(new Color(0, 0, 0));
+					validationErrorLabel.setVisible(false);
+				}
+			}
+		});
 
 		outputTextField = new JTextField();
 		outputTextField.setFont(font);
 		outputTextField.setEditable(false);
 		contentPane.add(outputTextField, "cell 0 5,growx");
-		outputTextField.setColumns(10);
 
 //		TypeSelector
 		JRadioButton currenciesRadioButton = new JRadioButton("Monedas");
+		currenciesRadioButton.setHorizontalAlignment(SwingConstants.LEFT);
 		currenciesRadioButton.setFont(font);
 		currenciesRadioButton.setSelected(true);
 		currenciesRadioButton.addActionListener(new ActionListener() {
@@ -153,6 +171,7 @@ public class Window extends JFrame {
 		contentPane.add(currenciesRadioButton, "cell 0 1");
 
 		JRadioButton temperaturesRadioButton = new JRadioButton("Temperaturas");
+		temperaturesRadioButton.setHorizontalAlignment(SwingConstants.RIGHT);
 		temperaturesRadioButton.setFont(font);
 		temperaturesRadioButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -167,30 +186,29 @@ public class Window extends JFrame {
 		ButtonGroup units = new ButtonGroup();
 		units.add(currenciesRadioButton);
 		units.add(temperaturesRadioButton);
-
-//		ConvertButton
-		JButton convertButton = new JButton("Convertir");
-		convertButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				BigDecimal inputValue = new BigDecimal(inputTextField.getText().toString());
-				BigDecimal outputValue = new BigDecimal("0");
-
-				try {
-					if (currenciesRadioButton.isSelected()) {
-						CurrencyUnit fromUnit = (CurrencyUnit) currenciesTopBox.getSelectedItem();
-						CurrencyUnit toUnit = (CurrencyUnit) currenciesBottomBox.getSelectedItem();
-//						outputValue = currencies converter;
-					} else if (temperaturesRadioButton.isSelected()) {
-						TemperatureUnit fromUnit = (TemperatureUnit) temperaturesTopBox.getSelectedItem();
-						TemperatureUnit toUnit = (TemperatureUnit) temperaturesBottomBox.getSelectedItem();
-						outputValue = TemperatureConverter.getConversionValue(inputValue, fromUnit, toUnit);
+		
+		//		ConvertButton
+				JButton convertButton = new JButton("Convertir");
+				convertButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						try {
+							BigDecimal inputValue = new BigDecimal(inputTextField.getText().toString());
+							BigDecimal outputValue = new BigDecimal("0");
+							if (currenciesRadioButton.isSelected()) {
+								CurrencyUnit fromUnit = (CurrencyUnit) currenciesTopBox.getSelectedItem();
+								CurrencyUnit toUnit = (CurrencyUnit) currenciesBottomBox.getSelectedItem();
+								outputValue = CurrencyConverter.getConversionValue(inputValue, fromUnit, toUnit);
+							} else if (temperaturesRadioButton.isSelected()) {
+								TemperatureUnit fromUnit = (TemperatureUnit) temperaturesTopBox.getSelectedItem();
+								TemperatureUnit toUnit = (TemperatureUnit) temperaturesBottomBox.getSelectedItem();
+								outputValue = TemperatureConverter.getConversionValue(inputValue, fromUnit, toUnit);
+							}
+							outputTextField.setText(outputValue.toString());
+						} catch (Exception e2) {
+							outputTextField.setText("NaN");
+						}
 					}
-				} catch (Exception e2) {
-					outputTextField.setText("NaN");
-				}
-				outputTextField.setText(outputValue.toString());
-			}
-		});
-		contentPane.add(convertButton, "cell 2 4");
+				});
+				contentPane.add(convertButton, "cell 1 7");
 	}
 }
