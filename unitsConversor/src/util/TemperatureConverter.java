@@ -10,8 +10,7 @@ public class TemperatureConverter {
 	 * Converts a BigDecimal from one unit to another using C as a medium if needed to
 	 * i.e: from F to K: convertToC(F) -> convertFromC(K)
 	 */
-	public static BigDecimal getConversionValue(BigDecimal inputValue, TemperatureUnit fromUnit,
-			TemperatureUnit toUnit) {
+	public static BigDecimal getConversionValue(BigDecimal inputValue, TemperatureUnit fromUnit, TemperatureUnit toUnit) {
 		if (fromUnit.toString() == "CELSIUS") {
 			return convertFromC(inputValue, toUnit).setScale(3, RoundingMode.HALF_UP);
 		} else if (toUnit.toString() == "CELSIUS") {
@@ -40,7 +39,7 @@ public class TemperatureConverter {
 	/*
 	 * Converts value from C to any unit
 	 */
-	public static BigDecimal convertFromC(BigDecimal inputValue, TemperatureUnit unitFrom) {
+	private static BigDecimal convertFromC(BigDecimal inputValue, TemperatureUnit unitFrom) {
 		switch (unitFrom) {
 		case FARENHEIT:
 //			return inputValue * 9 / 5 + 32;

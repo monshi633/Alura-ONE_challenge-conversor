@@ -1,14 +1,14 @@
 package test;
 
-import main.Conversor;
+import main.ValidateInput;
 
-public class TestConversor {
+public class TestValidateInput {
 
 	public static void main(String[] args) {
 
 		String input = "10.050";
-		Conversor c = new Conversor();
-		c.validateInput(input);
+		System.out.println(ValidateInput.validateInput(input));
+		System.out.println(ValidateInput.getValidationError());
 	}
 
 }

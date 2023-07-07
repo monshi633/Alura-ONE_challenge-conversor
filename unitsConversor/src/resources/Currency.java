@@ -1,12 +1,19 @@
-package util;
+package resources;
+
+import java.math.BigDecimal;
 
 public class Currency {
 
+	@SuppressWarnings("unused")
 	private String base;
+	@SuppressWarnings("unused")
 	private String to;
+	@SuppressWarnings("unused")
 	private double amount;
 	private double converted;
+	@SuppressWarnings("unused")
 	private double rate;
+	@SuppressWarnings("unused")
 	private int lastUpdate;
 	
 	public Currency(String base, String to, double amount, double converted, double rate, int lastUpdate) {
@@ -18,7 +25,8 @@ public class Currency {
 		this.lastUpdate = lastUpdate;
 	}
 
-	public double getConverted() {
-		return converted;
+	public BigDecimal getConverted() {
+		String convertedString = String.valueOf(converted);
+		return new BigDecimal(convertedString);
 	}
 }
