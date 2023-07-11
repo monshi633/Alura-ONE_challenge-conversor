@@ -18,9 +18,12 @@ import util.ValidateInput;
 
 import java.awt.CardLayout;
 import javax.swing.event.CaretListener;
+
 import javax.swing.event.CaretEvent;
 import java.awt.Color;
 import java.awt.EventQueue;
+
+import com.formdev.flatlaf.*;
 
 @SuppressWarnings("serial")
 public class Controller extends JFrame {
@@ -30,6 +33,11 @@ public class Controller extends JFrame {
 	private JTextField outputTextField;
 
 	public static void main(String[] args) {
+		try {
+		    UIManager.setLookAndFeel( new FlatDarculaLaf());
+		} catch( Exception ex ) {
+		    System.err.println( "Failed to initialize LaF" );
+		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -43,8 +51,10 @@ public class Controller extends JFrame {
 	}
 
 	private Controller() {
+		setResizable(false);
 //		Attributes
 		Font font = new Font("Montserrat", Font.PLAIN, 14);
+		Color errorColor = new Color(207, 102, 121);
 
 		/*
 		 * Window and elements setup
@@ -52,11 +62,11 @@ public class Controller extends JFrame {
 //		ContentPane
 		setTitle("Conversor de unidades");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 500, 275);
 		contentPane = new JPanel();
 		contentPane.setToolTipText("");
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new MigLayout("", "[grow][grow]", "[20px][][][][25px:n][][][][grow]"));
+		contentPane.setLayout(new MigLayout("", "[grow][grow]", "[20px][grow][][][][25px:n][][15px:n][]"));
 		setContentPane(contentPane);
 
 //		Label
@@ -69,12 +79,12 @@ public class Controller extends JFrame {
 		currenciesRadioButton.setHorizontalAlignment(SwingConstants.LEFT);
 		currenciesRadioButton.setFont(font);
 		currenciesRadioButton.setSelected(true);
-		contentPane.add(currenciesRadioButton, "cell 0 1");
+		contentPane.add(currenciesRadioButton, "cell 0 2");
 		
 		JRadioButton temperaturesRadioButton = new JRadioButton("Temperaturas");
 		temperaturesRadioButton.setHorizontalAlignment(SwingConstants.RIGHT);
 		temperaturesRadioButton.setFont(font);
-		contentPane.add(temperaturesRadioButton, "cell 1 1");
+		contentPane.add(temperaturesRadioButton, "cell 1 2");
 		
 		ButtonGroup units = new ButtonGroup();
 		units.add(currenciesRadioButton);
@@ -83,51 +93,55 @@ public class Controller extends JFrame {
 //		TextField
 		inputTextField = new JTextField();
 		inputTextField.setFont(font);
-		contentPane.add(inputTextField, "cell 0 3,growx");
+		contentPane.add(inputTextField, "cell 0 4,growx");
 
-		
 		JLabel validationErrorLabel = new JLabel();
 		validationErrorLabel.setFont(font);
-		validationErrorLabel.setForeground(new Color(255, 0, 0));
+		validationErrorLabel.setForeground(errorColor);
 		validationErrorLabel.setVisible(false);
-		contentPane.add(validationErrorLabel, "cell 0 4 2 1");
+		contentPane.add(validationErrorLabel, "cell 0 5 2 1");
 		
 		outputTextField = new JTextField();
 		outputTextField.setFont(font);
 		outputTextField.setEditable(false);
-		contentPane.add(outputTextField, "cell 0 5,growx");
+		contentPane.add(outputTextField, "cell 0 6,growx");
 
 //		UnitSelectorPane
 		JPanel subSelectorTopPane = new JPanel();
 		subSelectorTopPane.setLayout(new CardLayout(0, 0));
-		contentPane.add(subSelectorTopPane, "cell 1 3,grow");
+		contentPane.add(subSelectorTopPane, "cell 1 4,grow");
 
 		JPanel subSelectorBottomPane = new JPanel();
 		subSelectorBottomPane.setLayout(new CardLayout(0, 0));
-		contentPane.add(subSelectorBottomPane, "cell 1 5,grow");
+		contentPane.add(subSelectorBottomPane, "cell 1 6,grow");
 
 //		UnitSelectors
 		JComboBox<CurrencyUnit> currenciesTopBox = new JComboBox<>(CurrencyUnit.values());
 		currenciesTopBox.setSelectedIndex(0);
+		currenciesTopBox.setFont(font);
 		subSelectorTopPane.add(currenciesTopBox);
 
 		JComboBox<CurrencyUnit> currenciesBottomBox = new JComboBox<>(CurrencyUnit.values());
 		currenciesBottomBox.setSelectedIndex(1);
+		currenciesBottomBox.setFont(font);
 		subSelectorBottomPane.add(currenciesBottomBox);
 
 		JComboBox<TemperatureUnit> temperaturesTopBox = new JComboBox<>(TemperatureUnit.values());
 		temperaturesTopBox.setSelectedIndex(0);
-		subSelectorTopPane.add(temperaturesTopBox);
 		temperaturesTopBox.setVisible(false);
+		temperaturesTopBox.setFont(font);
+		subSelectorTopPane.add(temperaturesTopBox);
 
 		JComboBox<TemperatureUnit> temperaturesBottomBox = new JComboBox<>(TemperatureUnit.values());
 		temperaturesBottomBox.setSelectedIndex(1);
-		subSelectorBottomPane.add(temperaturesBottomBox);
 		temperaturesBottomBox.setVisible(false);
+		temperaturesBottomBox.setFont(font);
+		subSelectorBottomPane.add(temperaturesBottomBox);
 
 //		ConvertButton
 		JButton convertButton = new JButton("Convertir");
-		contentPane.add(convertButton, "cell 1 7");
+		convertButton.setFont(font);
+		contentPane.add(convertButton, "cell 0 8 2 1,alignx center,aligny center");
 
 		
 //		Action listeners
@@ -220,14 +234,31 @@ public class Controller extends JFrame {
 		inputTextField.addCaretListener(new CaretListener() {
 			public void caretUpdate(CaretEvent e) {
 				if (!ValidateInput.validateInput(inputTextField.getText().toString())) {
-					inputTextField.setForeground(new Color(255, 0, 0));
+					inputTextField.setForeground(errorColor);
 					validationErrorLabel.setText(ValidateInput.getValidationError());
 					validationErrorLabel.setVisible(true);
 					convertButton.setEnabled(false);
 				} else {
-					inputTextField.setForeground(new Color(0, 0, 0));
+					inputTextField.setForeground(new Color(187, 187, 187));
 					validationErrorLabel.setVisible(false);
 					convertButton.setEnabled(true);
+//					disabled because of HttpResponseCode: 429 - Too many requests
+//					try {
+//						BigDecimal inputValue = new BigDecimal(inputTextField.getText().toString());
+//						BigDecimal outputValue = new BigDecimal("0");
+//						if (currenciesRadioButton.isSelected()) {
+//							CurrencyUnit fromUnit = (CurrencyUnit) currenciesTopBox.getSelectedItem();
+//							CurrencyUnit toUnit = (CurrencyUnit) currenciesBottomBox.getSelectedItem();
+//							outputValue = CurrencyConverter.getConversionValue(inputValue, fromUnit, toUnit);
+//						} else if (temperaturesRadioButton.isSelected()) {
+//							TemperatureUnit fromUnit = (TemperatureUnit) temperaturesTopBox.getSelectedItem();
+//							TemperatureUnit toUnit = (TemperatureUnit) temperaturesBottomBox.getSelectedItem();
+//							outputValue = TemperatureConverter.getConversionValue(inputValue, fromUnit, toUnit);
+//						}
+//						outputTextField.setText(outputValue.toString());
+//					} catch (Exception e2) {
+//						outputTextField.setText("NaN");
+//					}
 				}
 			}
 		});

@@ -16,7 +16,7 @@ public class ValidateInput {
 				validationError = "No se admiten numeros negativos";
 				return false;
 			} else {
-				validationError = "Solo numeros y opcional un punto seguido de decimales";
+				validationError = "Sólo números y opcional un punto seguido de decimales";
 				return false;
 			}
 		}
