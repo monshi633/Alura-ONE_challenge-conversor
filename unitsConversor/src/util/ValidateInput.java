@@ -9,10 +9,13 @@ public class ValidateInput {
 		 * Input must have at least a number
 		 * followed by an optional dot and at least one number
 		 */		
-		if (amount.matches("^\\d+(\\.\\d+)?$") || amount.matches("")) {
+		if (amount.matches("^\\d+(\\.\\d+)?$")) {
 			return true;
 		} else {
-			if (amount.matches("-.*")) {
+			if (amount.matches("")) {
+				validationError = "";
+				return false;
+			} else if (amount.matches("-.*")) {
 				validationError = "No se admiten numeros negativos";
 				return false;
 			} else {
