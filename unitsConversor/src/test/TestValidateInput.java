@@ -1,6 +1,6 @@
 package test;
 
-import main.ValidateInput;
+import util.ValidateInput;
 
 public class TestValidateInput {
 
