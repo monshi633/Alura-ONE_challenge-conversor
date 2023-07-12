@@ -1,1 +1,4 @@
-/.metadata/
+/.metadata
+/launch4j.log
+/unitsConversor.exe
+/unitsConversorConfig.xml
