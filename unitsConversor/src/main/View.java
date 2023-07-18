@@ -26,7 +26,7 @@ import java.awt.EventQueue;
 import com.formdev.flatlaf.*;
 
 @SuppressWarnings("serial")
-public class Controller extends JFrame {
+public class View extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField inputTextField;
@@ -41,7 +41,7 @@ public class Controller extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Controller frame = new Controller();
+					View frame = new View();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -50,7 +50,7 @@ public class Controller extends JFrame {
 		});
 	}
 
-	private Controller() {
+	private View() {
 		setResizable(false);
 //		Attributes
 		Font font = new Font("Montserrat", Font.PLAIN, 14);
