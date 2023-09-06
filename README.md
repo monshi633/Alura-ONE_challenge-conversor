@@ -7,7 +7,7 @@
   <img src="https://img.shields.io/badge/JRE-20-red">
 </p>
 
-## Tecnologias-utilizadas
+## Tecnologias utilizadas
 * Java
 * JavaSwing - windowBuilder
 * [AnyAPI](https://anyapi.io/app/currency-exchange-api) - Conversión de monedas
