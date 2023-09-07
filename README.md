@@ -66,3 +66,12 @@ Está desarrollada la opción de quitar el botón de convertir y que las unidade
 * Elección de una API con mayores tipos de cambio y/o mayor cantidad de consultas por minuto
 * Conversión automática (eliminar necesidad de botón)
 * Doble input para agilizar la conversión de unidades (o botón para invertir unidades)
+
+## Agradecimientos
+🧡 <strong>Oracle</strong></br>
+<a href="https://www.linkedin.com/company/oracle/" target="_blank">
+<img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a>
+
+💙 <strong>Alura Latam</strong></br>
+<a href="https://www.linkedin.com/company/alura-latam/mycompany/" target="_blank">
+<img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a>
