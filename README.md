@@ -16,7 +16,8 @@
 * [Flatlaf](https://www.formdev.com/flatlaf) - Look and Feel
 
 ## Introducción
-<p>Este conversor recibe un valor de entrada que debe ser numérico y mayor a 0, y devuelve su equivalente en la unidad seleccionada.<br>
+<p>Este proyecto es parte de un curso dictado por Alura y Oracle Next Education</p>
+<p>El conversor recibe un valor de entrada que debe ser numérico y mayor a 0, y devuelve su equivalente en la unidad seleccionada.<br>
 El usuario se encuentra con dos opciones para elegir, monedas o temperaturas. Una vez seleccionadas, elije las unidades a convertir.</p>
 
 ## Uso de API
